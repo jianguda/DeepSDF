@@ -45,12 +45,14 @@ sudo make install
 
 ```
 # build & install Pangolin
+pip3 install numpy pyopengl Pillow pybind11
 sudo apt install libgl1-mesa-dev libeigen3-dev libglew-dev libwayland-dev libxkbcommon-dev wayland-protocols libegl1-mesa-dev
 # sudo apt install libgl1-mesa-dev libglu1-mesa-dev libglew-dev libgles2-mesa-dev
 # sudo apt install pkg-config libegl1-mesa-dev libwayland-dev libxkbcommon-dev wayland-protocols
 git clone https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
 git submodule update --init
+git submodule update
 mkdir build && cd build
 cmake ..
 # update the symbolic link
