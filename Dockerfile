@@ -3,6 +3,7 @@ FROM debian:9
 VOLUME ["/data", "/v2"]
 
 RUN apt-get update && apt-get install -yq \
+    python3 \
     libgl1-mesa-dev \
     libegl1-mesa-dev \
     libglew-dev \
