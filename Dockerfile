@@ -4,12 +4,15 @@ VOLUME ["/data", "/v2"]
 
 RUN apt-get update && apt-get install -yq \
     python3 \
+    python3-pip \
     libgl1-mesa-dev \
     libegl1-mesa-dev \
     libglew-dev \
     libwayland-dev \
     libxkbcommon-dev \
     wayland-protocols
+
+RUN pip3 install torch trimesh numpy scipy scikit-image plyfile
 
 ENV PANGOLIN_WINDOW_URI=headless://
 
