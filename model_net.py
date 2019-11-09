@@ -7,26 +7,18 @@ import pymesh
 # https://github.com/iMoonLab/MeshNet/blob/master/data/preprocess.py
 # .off -> .ply
 # https://github.com/PyMesh/PyMesh/blob/master/docs/basic.rst
-
-def off2ply(file_name: str):
-    mesh = pymesh.load_mesh(file_name + ".obj")
-    vertices = mesh.vertices
-    faces = mesh.faces
-    voxels = mesh.voxels
-    # For surface mesh
-    pymesh.save_mesh_raw(file_name + ".ply", vertices, faces)
-    # For volume mesh
-    # pymesh.save_mesh_raw(file_name + ".ply", vertices, faces, voxels)
-    # In ascii and using float
-    # pymesh.save_mesh_raw(file_name + ".ply", vertices, faces, voxels, ascii=True, use_float=True)
+# .off -> .obj
+# https://www.antiprism.com/programs/off2obj.html
 
 
 def find_neighbor(faces, faces_contain_this_vertex, vf1, vf2, except_face):
     for i in (faces_contain_this_vertex[vf1] & faces_contain_this_vertex[vf2]):
         if i != except_face:
             face = faces[i].tolist()
-            face.remove(vf1)
-            face.remove(vf2)
+            if vf1 in face:
+                face.remove(vf1)
+            if vf2 in face:
+                face.remove(vf2)
             return i
 
     return except_face
@@ -34,8 +26,8 @@ def find_neighbor(faces, faces_contain_this_vertex, vf1, vf2, except_face):
 
 if __name__ == '__main__':
 
-    root = 'ModelNet40_simplification'
-    new_root = 'ModelNet40_MeshNet'
+    root = 'ModelNet10'
+    new_root = 'ModelNet10'
 
     for type in os.listdir(root):
         for phrase in ['train', 'test']:
@@ -48,9 +40,24 @@ if __name__ == '__main__':
 
             files = glob.glob(os.path.join(phrase_path, '*.off'))
             for file in files:
+                _, filename = os.path.split(file)
+                new_filename = new_root + '/' + type + '/' + phrase + '/' + filename[:-4]
+            
                 # load mesh
                 mesh = pymesh.load_mesh(file)
+                
+                ### off2ply
+                vertices = mesh.vertices
+                faces = mesh.faces
+                voxels = mesh.voxels
+                # For surface mesh
+                pymesh.save_mesh_raw(new_filename + ".ply", vertices, faces)
+                # For volume mesh
+                # pymesh.save_mesh_raw(new_filename + ".ply", vertices, faces, voxels)
+                # In ascii and using float
+                # pymesh.save_mesh_raw(new_filename + ".ply", vertices, faces, voxels, ascii=True, use_float=True)
 
+                ### off2npz
                 # clean up
                 mesh, _ = pymesh.remove_isolated_vertices(mesh)
                 mesh, _ = pymesh.remove_duplicated_vertices(mesh)
@@ -101,9 +108,7 @@ if __name__ == '__main__':
                 corners = np.array(corners)
                 faces = np.concatenate([centers, corners, face_normal], axis=1)
                 neighbors = np.array(neighbors)
-
-                _, filename = os.path.split(file)
-                np.savez(new_root + type + '/' + phrase + '/' + filename[:-4] + '.npz',
-                         faces=faces, neighbors=neighbors)
+                
+                np.savez(new_filename + '.npz', faces=faces, neighbors=neighbors)
 
                 print(file)
