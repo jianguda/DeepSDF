@@ -1,0 +1,80 @@
+# shapenet_lamp
+python3 train_deep_sdf.py -e examples/shapenet_lamp
+python3 reconstruct.py -e examples/shapenet_lamp -c 500 --split examples/splits/shapenet_lamp_test.json -d ../data/shapenet_lamp --skip
+python3 evaluate.py -e examples/shapenet_lamp -c 500 -d ../data/shapenet_lamp -s examples/splits/shapenet_lamp_test.json
+# shapenet_plane
+python3 train_deep_sdf.py -e examples/shapenet_plane
+python3 reconstruct.py -e examples/shapenet_plane -c 500 --split examples/splits/shapenet_plane_test.json -d ../data/shapenet_plane --skip
+python3 evaluate.py -e examples/shapenet_plane -c 500 -d ../data/shapenet_plane -s examples/splits/shapenet_plane_test.json
+# shapenet_sofa
+python3 train_deep_sdf.py -e examples/shapenet_sofa
+python3 reconstruct.py -e examples/shapenet_sofa -c 500 --split examples/splits/shapenet_sofa_test.json -d ../data/shapenet_sofa --skip
+python3 evaluate.py -e examples/shapenet_sofa -c 500 -d ../data/shapenet_sofa -s examples/splits/shapenet_sofa_test.json
+
+# modelnet_dresser
+python3 train_deep_sdf.py -e examples/modelnet_dresser
+python3 reconstruct.py -e examples/modelnet_dresser -c 500 --split examples/splits/modelnet_dresser_test.json -d ../data/modelnet_dresser --skip
+python3 evaluate.py -e examples/modelnet_dresser -c 500 -d ../data/modelnet_dresser -s examples/splits/modelnet_dresser_test.json
+# modelnet_monitor
+python3 train_deep_sdf.py -e examples/modelnet_monitor
+python3 reconstruct.py -e examples/modelnet_monitor -c 500 --split examples/splits/modelnet_monitor_test.json -d ../data/modelnet_monitor --skip
+python3 evaluate.py -e examples/modelnet_monitor -c 500 -d ../data/modelnet_monitor -s examples/splits/modelnet_monitor_test.json
+# modelnet_sofa
+python3 train_deep_sdf.py -e examples/modelnet_sofa -c latest
+python3 reconstruct.py -e examples/modelnet_sofa -c 500 --split examples/splits/modelnet_sofa_test.json -d ../data/modelnet_sofa --skip
+python3 evaluate.py -e examples/modelnet_sofa -c 500 -d ../data/modelnet_sofa -s examples/splits/modelnet_sofa_test.json
+
+
+
+# shapenet_sofa -> shapenet_lamp
+python3 train_deep_sdf.py -e examples/shapenet_sofa
+python3 reconstruct.py -e examples/shapenet_sofa -c 500 --split examples/splits/shapenet_lamp_test.json -d ../data/shapenet_lamp --skip
+python3 evaluate.py -e examples/shapenet_lamp -c 500 -d ../data/shapenet_lamp -s examples/splits/shapenet_lamp_test.json
+
+# shapenet_sofa -> shapenet_plane
+python3 train_deep_sdf.py -e examples/shapenet_sofa
+python3 reconstruct.py -e examples/shapenet_sofa -c 500 --split examples/splits/shapenet_plane_test.json -d ../data/shapenet_plane --skip
+python3 evaluate.py -e examples/shapenet_plane -c 500 -d ../data/shapenet_plane -s examples/splits/shapenet_plane_test.json
+
+# modelnet_sofa -> modelnet_dresser
+python3 train_deep_sdf.py -e examples/modelnet_sofa -c latest
+python3 reconstruct.py -e examples/modelnet_sofa -c 500 --split examples/splits/modelnet_dresser_test.json -d ../data/modelnet_dresser --skip
+python3 evaluate.py -e examples/modelnet_dresser -c 500 -d ../data/modelnet_dresser -s examples/splits/modelnet_dresser_test.json
+
+# modelnet_sofa -> modelnet_monitor
+python3 train_deep_sdf.py -e examples/modelnet_sofa -c latest
+python3 reconstruct.py -e examples/modelnet_sofa -c 500 --split examples/splits/modelnet_monitor_test.json -d ../data/modelnet_monitor --skip
+python3 evaluate.py -e examples/modelnet_monitor -c 500 -d ../data/modelnet_monitor -s examples/splits/modelnet_monitor_test.json
+
+
+
+# shapenet_sofa -> modelnet_sofa
+python3 train_deep_sdf.py -e examples/shapenet_sofa
+python3 reconstruct.py -e examples/shapenet_sofa -c 500 --split examples/splits/modelnet_sofa_test.json -d ../data/modelnet_sofa --skip
+python3 evaluate.py -e examples/modelnet_sofa -c 500 -d ../data/modelnet_sofa -s examples/splits/modelnet_sofa_test.json
+
+# modelnet_sofa -> shapenet_sofa
+python3 train_deep_sdf.py -e examples/modelnet_sofa -c latest
+python3 reconstruct.py -e examples/modelnet_sofa -c 500 --split examples/splits/shapenet_sofa_test.json -d ../data/shapenet_sofa --skip
+python3 evaluate.py -e examples/shapenet_sofa -c 500 -d ../data/shapenet_sofa -s examples/splits/shapenet_sofa_test.json
+
+
+
+script /dev/null
+
+
+
+Traceback (most recent call last):
+  File "reconstruct.py", line 280, in <module>
+    decoder, latent, mesh_filename, N=256, max_batch=int(2 ** 18)
+  File "/home/ycaxgjd/DeepSDF/deep_sdf/mesh.py", line 70, in create_mesh
+    scale,
+  File "/home/ycaxgjd/DeepSDF/deep_sdf/mesh.py", line 97, in convert_sdf_samples_to_ply
+    numpy_3d_sdf_tensor, level=0.0, spacing=[voxel_size] * 3
+  File "/home/ycaxgjd/.local/lib/python3.5/site-packages/skimage/measure/_marching_cubes_lewiner.py", line 135, in marching_cubes_lewiner
+    raise ValueError("Surface level must be within volume data range.")
+ValueError: Surface level must be within volume data range.
+
+
+/home/ycaxgjd/DeepSDF/examples/modelnet_monitor/Evaluation/500/modelnet_sofa2monitor_chamfer.csv
+/home/ycaxgjd/DeepSDF/examples/modelnet_dresser/Evaluation/500/modelnet_sofa2dresser_chamfer.csv
